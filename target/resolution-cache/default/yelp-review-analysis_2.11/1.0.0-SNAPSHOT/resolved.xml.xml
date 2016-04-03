@@ -4,7 +4,7 @@
 		module="yelp-review-analysis_2.11"
 		revision="1.0.0-SNAPSHOT"
 		status="integration"
-		publication="20160329203258"
+		publication="20160403013617"
 	>
 		<description>
 		Yelp-Review-Analysis
@@ -39,6 +39,7 @@
 		<dependency org="org.scala-lang.modules" name="scala-parser-combinators_2.11" rev="1.0.4" conf="compile->default(compile)"/>
 		<dependency org="org.apache.commons" name="commons-math3" rev="3.6" conf="compile->default(compile)"/>
 		<dependency org="org.scalatest" name="scalatest_2.11" rev="2.2.4" conf="test->default(compile)"/>
+		<dependency org="com.typesafe.play" name="play-json_2.11" rev="2.5.1" conf="compile->default(compile)"/>
 		<override org="org.scala-lang" module="scala-library" matcher="exact" rev="2.11.7"/>
 		<override org="org.scala-lang" module="scala-compiler" matcher="exact" rev="2.11.7"/>
 		<override org="org.scala-lang" module="scala-reflect" matcher="exact" rev="2.11.7"/>
