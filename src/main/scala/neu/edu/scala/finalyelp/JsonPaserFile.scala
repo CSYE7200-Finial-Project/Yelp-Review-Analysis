@@ -3,7 +3,11 @@ import play.api.libs.json._
 import scala.io._
 import scala.collection.mutable
 import java.io._
-
+/*
+ * this file can clean the reviews of Germany City Karlsruhe's business 
+ * and print out 5 files with review context based on the different stars
+ * @author:wanlima
+ */
 
 object JsonPaserFile extends App {
   val stream_business  = getClass.getResourceAsStream("/business_test.json")
