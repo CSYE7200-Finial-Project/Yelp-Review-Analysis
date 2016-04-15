@@ -3,52 +3,74 @@ import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
 import org.apache.spark.SparkConf
 import scala.collection.mutable
-import scala.io._
 import java.io._
+import org.apache.spark.rdd._
+import com.norbitltd.spoiwo.model._
+import org.joda.time.LocalDate
+import com.norbitltd.spoiwo.natures.xlsx.Model2XlsxConversions._
+import com.norbitltd.spoiwo.model.enums.CellFill
+/*
+ * predata for machine learning, get the required input formated data for training data
+ * @author: wanlima
+ */
 
-object PreDataML extends App {
-  val conf = new SparkConf().setAppName("PreDataML").setMaster("local")
-  val sc = new SparkContext(conf)
-  val file = sc.textFile("src/main/resources/wordsDelCom/word5.txt")
+class PreDataML  {
+  var workbook = Workbook()
+  var allCells = Iterator[Cell]()
+  var row1 = Iterator[Row]()
 
-  val setIdentical = mutable.Set.empty[String]
+  var allWords = Iterator[Cell]()
+  var allRows = Iterator[Row]()
+  
+  def addToIterator(cells: Iterator[Cell], cell: Iterator[Cell]): Iterator[Cell] = {
+    cells ++ cell
+  }
+  def addToIterator2(rows: Iterator[Row], row: Iterator[Row]): Iterator[Row] = {
+    rows ++ row
+  }
 
-  val reg = """^\((\w+)-?&?'?\w*?,(\d+)\)$""".r
-  val reg1 = """^\((:\)),(\d+)\)$""".r
-  val reg2 = """^\((\$?\d+%?),(\d+)\)$""".r // ($10,8)
-  val reg3 = """^\('\w*,(\d+)\)$""".r // ('n, 10)
+  def wordsToRow0(set5: Set[String]) = {
 
-  //get the words from the (word,count) files into a set
-  def getSet(l: Stream[String]): mutable.Set[String] = {
-    val set = mutable.Set.empty[String]
-    for (line <- l) {
-      def getWord(line: String) = line match {
-        case reg(word, num)  => set += word
-        case reg1(word, num) => set += word
-        case reg2(word, num) => set += word
-        case reg3(word, num) => set += word
-        case _               => set += ""
+    for ((word, i) <- set5.toList.zipWithIndex) {
+      val cell = Cell(word, index = i + 1)
+      allCells = addToIterator(allCells, Iterator(cell))
+      if (i == set5.size - 1) {
+        val row = Row(index = 0).addCells(allCells.toIterable)
+        val sheet = Sheet(name = "sheet2").withRows(row)
+        workbook = workbook.addSheet(sheet)
+        row1 = addToIterator2(row1, Iterator(row))
       }
-      getWord(line)
     }
-    set
   }
+ 
+  def saveToxlsx(file5:RDD[String],set:Set[String],sparkC:SparkContext,i:Int) = {
+    for ((line, lineNum) <- file5.flatMap(lines => lines.split("/n")).collect().zipWithIndex) yield {
+      val res = sparkC.parallelize(line.split("[\\.,\\s!;?:\"]+"))
+        .filter(word => set.exists(x => x.equalsIgnoreCase(word)))
+        .map(word => (word, 1))
+        .reduceByKey(_ + _, 1)
+        .map(item => item.swap)
+        .sortByKey(false, 1)
+        .map(item => item.swap).collect()
+        
+      allWords = Iterator[Cell]()
+      for (((word, num), i) <- res.zipWithIndex) yield {
+        val position = workbook.sheets.head.rows.head.cells.toList.filter(cell => cell.value.toString.equalsIgnoreCase(word)) match {
+          case List(cell) => cell.index.get
+        }
+        val cell = Cell(num, index = position)
+        allWords = addToIterator(allWords, Iterator(cell))
 
-  val set5 = getSet(file.take(1000).toStream) 
-  val writer5 = new PrintWriter(new File("src/main/resources/wordFreLine/wordFreLine5.txt"))
-  val file5 = sc.textFile("src/main/resources/test5.csv")
-
-  for (line <- file5.flatMap(lines => lines.split("/n")).collect()) {
-    val res = sc.parallelize(line.split("[\\.,\\s!;?:\"]+"))
-      .filter(word => set5.exists(x => x.equalsIgnoreCase(word)))
-      .map(word => (word, 1))
-      .reduceByKey(_ + _, 1)
-      .map(item => item.swap)
-      .sortByKey(false, 1)
-      .map(item => item.swap).collect()
-    writer5.write("5 " + res.mkString(",") + "\n")
-  }
-
+        if (i == res.size - 1) {
+          val row = Row(index = lineNum + 1).addCells(allWords.toIterable)
+          allRows = addToIterator2(allRows, Iterator(row))
+        }
+      }//small for
+      
+    }//big for
+    val sheet = Sheet("sheet1").addRows(allRows.toIterable).addRows(row1.toIterable)
+    Workbook().addSheet(sheet).saveAsXlsx("src/main/resources/preDataML/predata" + i + ".xlsx")
+  }//end def saveAsxlsx
 
 }
 

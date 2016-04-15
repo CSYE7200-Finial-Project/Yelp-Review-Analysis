@@ -4,7 +4,7 @@
 		module="yelp-review-analysis_2.11"
 		revision="1.0.0-SNAPSHOT"
 		status="integration"
-		publication="20160404151751"
+		publication="20160414200219"
 	>
 		<description>
 		Yelp-Review-Analysis
@@ -43,6 +43,7 @@
 		<dependency org="org.apache.commons" name="commons-lang3" rev="3.4" conf="compile->default(compile)"/>
 		<dependency org="org.apache.spark" name="spark-core_2.11" rev="1.6.1" conf="compile->default(compile)"/>
 		<dependency org="com.fasterxml.jackson.module" name="jackson-module-scala_2.11" rev="2.7.2" conf="compile->default(compile)"/>
+		<dependency org="com.norbitltd" name="spoiwo" rev="1.0.6" conf="compile->default(compile)"/>
 		<override org="org.scala-lang" module="scala-library" matcher="exact" rev="2.11.7"/>
 		<override org="org.scala-lang" module="scala-compiler" matcher="exact" rev="2.11.7"/>
 		<override org="org.scala-lang" module="scala-reflect" matcher="exact" rev="2.11.7"/>

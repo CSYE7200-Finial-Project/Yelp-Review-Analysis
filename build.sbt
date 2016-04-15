@@ -21,6 +21,7 @@ libraryDependencies ++= Seq(
 	"com.typesafe.play" % "play-json_2.11" % "2.5.1",
 	"org.apache.commons" % "commons-lang3" % "3.4",
 	"org.apache.spark" % "spark-core_2.11" % "1.6.1",
-	"com.fasterxml.jackson.module" % "jackson-module-scala_2.11" % "2.7.2"
+	"com.fasterxml.jackson.module" % "jackson-module-scala_2.11" % "2.7.2",
+	"com.norbitltd" % "spoiwo" % "1.0.6"
 )
 
