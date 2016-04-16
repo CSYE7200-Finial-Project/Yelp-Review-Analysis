@@ -57,7 +57,8 @@ object MainClass {
       ci.writeFile(seqRdd(4), "/time" + j + "/word5", identicalSet)
     }
 
-    // 4. predata for machine learning, get the required input formated data for training data
+    
+    /* preDataML 
     for (i <- 1 to 5) {
       val pdML = new PreDataML()
       val file = sc.textFile("src/main/resources/wordsDelCom/time3/word" + i + ".txt")
@@ -66,5 +67,21 @@ object MainClass {
       pdML.wordsToRow0(set)
       pdML.saveToxlsx(review, set, sc, i)
     }
+    * 
+    */
+    // 4. predata for machine learning, get the required input formated data for training data
+    val review = for {
+      i <- 1 to 5
+      file =sc.textFile("src/main/resources/test" + i + ".csv")
+    } yield file
+    
+    val seqRdd2 = for {
+      i <- 1 to 5
+      file = sc.textFile("src/main/resources/wordsDelCom/time3/word" + i + ".txt")
+    } yield file
+
+    val pdML2 = new PreDataML2
+    val rows = pdML2.getRows(seqRdd2, review, sc)
+    pdML2.saveToXlsx(rows)
   }
 }
