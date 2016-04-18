@@ -1,4 +1,5 @@
 [0m[[33mwarn[0m] [0mThere may be incompatibilities among your library dependencies.[0m
 [0m[[33mwarn[0m] [0mHere are some of the libraries that were evicted:[0m
 [0m[[33mwarn[0m] [0m	* com.fasterxml.jackson.module:jackson-module-scala_2.11:2.4.4 -> 2.7.2[0m
+[0m[[33mwarn[0m] [0m	* org.spire-math:spire_2.11:0.7.4 -> 0.10.1[0m
 [0m[[33mwarn[0m] [0mRun 'evicted' to see detailed eviction warnings[0m
