@@ -9,8 +9,7 @@ import java.io._
  * @author:wanlima
  */
 
-object JsonPaserFile {
-
+class JsonPaserFile {
 
   val writer5 = new PrintWriter(new File("src/main/resources/test5.csv"))
   val writer4 = new PrintWriter(new File("src/main/resources/test4.csv"))
@@ -50,8 +49,8 @@ object JsonPaserFile {
     for (line <- source) {
       val text = Json.parse(line)
       val business_id = (text \ "business_id").get.toString()
-//      print((text \ "stars").get.toString + " ")
-//      println((text \ "text").get.toString)
+      //      print((text \ "stars").get.toString + " ")
+      //      println((text \ "text").get.toString)
       if (!karlsruhe_id.exists(x => x.equals(business_id))) {
         val stars = (text \ "stars").get.toString() match {
           case "5" => writer5.write(clean((text \ "text").get.toString.toLowerCase()) + "\n")
@@ -68,11 +67,14 @@ object JsonPaserFile {
     writer2.close()
     writer1.close()
   }
-  
-  def clean(s: String): String = s.replace("""\n""", " ").replace(""",,""", " ").replace("""(""", "").replace(""")""", "")
-    .replace("\"", "").replace(".", "").replace(""",""", " ").replace("""!""", "").replace("""'""", "")
-    .replace("""\""", "").replace("""/""", "").replace("""--""", " ").replace("""-""", " ").replace("""#""", "")
-    .replace("""{""", "").replace("""}""", "").replace("""*""", "").replace("""@""", "").replace("""+"""," ").replace("""="""," ")
-    .replace("""~"""," ").replace("ñ","n").replace("é","e").replace("ö", "o").replace("&","").replace("®","").replace("ä","a")
+
+  def clean(s: String): String = s.replace("""\n""", "").replace("""(""", "").replace(""")""", "")
+    .replace("\"", "").replace("""'""", "").replace("|", "").replace("<", "").replace(">", "").replace("·", "")
+    .replace("""\""", "").replace("""/""", "").replace("""--""", "").replace("""-""", "").replace("""#""", "").replace("$", "").replace("%", "")
+    .replace("""{""", "").replace("""}""", "").replace("""*""", "").replace("""@""", "").replace("""+""", "").replace("""=""", "")
+    .replace("""~""", "").replace("ñ", "n").replace("é", "e").replace("ö", "o").replace("&", "").replace("®", "")
+    .replace("ä", "a").replace("à", "a").replace("è", "e").replace("ê", "e").replace("]", "").replace("[", "").replace("ç", "c")
+    .replaceAll("[èéêë]", "e").replaceAll("[ûùü]", "u").replaceAll("[ïî]", "i").replaceAll("[àâ]", "a").replaceAll("ô", "o")
+    .replaceAll("[ÈÉÊË]", "E").replaceAll("[ÛÙ]", "U").replaceAll("[ÏÎ]", "I").replaceAll("[ÀÂ]", "A").replaceAll("Ô", "O")
 
 }

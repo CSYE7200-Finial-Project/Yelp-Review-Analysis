@@ -15,7 +15,7 @@ object MainClass {
     val sc = new SparkContext(conf)
 
     // 1. extract the review context from the reviews files,and divided into five files according to the star level
-    val jpf = JsonPaserFile
+    val jpf = new JsonPaserFile
     val businessSourcePath = "/Users/wanlima/Documents/Scala/yelp_dataset_challenge_academic_dataset/business_test.json"
     val reviewSourcePath = "/Users/wanlima/Documents/Scala/yelp_dataset_challenge_academic_dataset/review_test.json"
     jpf.saveReviews(businessSourcePath, reviewSourcePath)
@@ -80,8 +80,8 @@ object MainClass {
       file = sc.textFile("src/main/resources/wordsDelCom/time3/word" + i + ".txt")
     } yield file
 
-    val pdML2 = new PreDataML2
+    val pdML2 = new PreDataML4
     val rows = pdML2.getRows(seqRdd2, review, sc)
-    pdML2.saveToXlsx(rows)
+//    pdML2.saveToXlsx(rows)
   }
 }
