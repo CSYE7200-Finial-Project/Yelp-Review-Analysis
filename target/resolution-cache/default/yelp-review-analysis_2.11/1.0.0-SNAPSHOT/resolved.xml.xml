@@ -4,7 +4,7 @@
 		module="yelp-review-analysis_2.11"
 		revision="1.0.0-SNAPSHOT"
 		status="integration"
-		publication="20160418131420"
+		publication="20160418134123"
 	>
 		<description>
 		Yelp-Review-Analysis
