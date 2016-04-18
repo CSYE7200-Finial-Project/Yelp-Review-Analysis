@@ -22,6 +22,9 @@ libraryDependencies ++= Seq(
 	"org.apache.commons" % "commons-lang3" % "3.4",
 	"org.apache.spark" % "spark-core_2.11" % "1.6.1",
 	"com.fasterxml.jackson.module" % "jackson-module-scala_2.11" % "2.7.2",
-	"com.norbitltd" % "spoiwo" % "1.0.6"
+	"com.norbitltd" % "spoiwo" % "1.0.6",
+	"org.apache.spark" % "spark-mllib_2.11" % "1.6.1",
+	"com.fasterxml.jackson.module" % "jackson-module-scala_2.11" % "2.7.2"
+
 )
 
