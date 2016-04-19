@@ -22,6 +22,6 @@ Yelp Dataset Challenge: https://www.yelp.com/dataset_challenge
               2). remove the identical words from each wordcount files. 
               3). do step 1 and 2 for several times.
     Then, we get the feature words sets of different star levels.
-5 Covert these five feature words sets into a certain format for data training
+5. Covert these five feature words sets into a certain format for data training
 
      
