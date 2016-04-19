@@ -17,5 +17,8 @@ Yelp Dataset Challenge: https://www.yelp.com/dataset_challenge
    Then get the clear review context in five star level, and save them into five file according to star level
 3. Use Spark MapReduce to word count
 4. Refine the word count result, clean the identical words which are in top position
+   Algorithm: 1). extract the identical words in the top 1000  of the five wordcount files.
+              2). remove the identical words from each wordcount files. 
+              3). do step 1 and 2 for several time.
 
      
