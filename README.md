@@ -16,3 +16,6 @@ Yelp Dataset Challenge: https://www.yelp.com/dataset_challenge
    Remove the special signs and unaccent letters, like #, ^, &, and èéêë.
    Then get the clear review context in five star level, and save them into five file according to star level
 3. Use Spark MapReduce to word count
+4. Refine the word count result, clean the identical words which are in top position
+
+     
