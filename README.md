@@ -26,5 +26,5 @@ Yelp Dataset Challenge: https://www.yelp.com/dataset_challenge
 # Machine Learning
 
 #Zeppelin
-https://zeppelin.incubator.apache.org/
+Install video: https://www.youtube.com/watch?v=CfhYFqNyjGc
      
