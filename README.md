@@ -24,6 +24,19 @@ Yelp Dataset Challenge: https://www.yelp.com/dataset_challenge
 5. Covert these five feature words sets into a certain format for data training
 
 # Machine Learning
+1.	Problem: 
+This is a Multiple Classification Problem which we will classify the reviews to 5 classes (from 1 star to 5 star). So, the algorithms that we will use should solve this kind of problem
+2.	Algorithms:
+We chose 4 algorithms to training model, there are Boosted Decision Tree, Random Forest Tree, Naïve Bayes and Neural Network.
+3.	Objects:
+a.	mlNB is training Naïve Bayes model
+b.	mlNerualNetwork.scala is object to train NerualNetwork Model
+c.	mlRF is object to train Random Forest Model
+d.	mlDT is object to train Decision Tree Model
+4.	Apply model:
+In the predict folder, object reviewPridect is used to apply model to classify reviews.
+
+
 
 #Zeppelin
 Install video: https://www.youtube.com/watch?v=CfhYFqNyjGc
