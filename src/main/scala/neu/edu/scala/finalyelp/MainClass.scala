@@ -15,20 +15,23 @@ object MainClass {
     val conf = new SparkConf().setAppName("word count").setMaster("local[4]")
     val sc = new SparkContext(conf)
 
-    // extract the review context from the reviews files,and divided into five files according to the star level
+    /*
+     * 1. extract the review context from the reviews files,and divided into five files according to the star level
+     * because the data size is large, here is just run the test data
+     */  
     val jpf = new JsonPaserFile
-    val businessSourcePath = "/Users/wanlima/Documents/Scala/yelp_dataset_challenge_academic_dataset/yelp_academic_dataset_business.json"
-    val reviewSourcePath = "/Users/wanlima/Documents/Scala/yelp_dataset_challenge_academic_dataset/reviews/xac1.json"
+    val businessSourcePath = "/Users/wanlima/Documents/Scala/workspace/Yelp-Review-Analysis/src/main/resources/business_test.json"
+    val reviewSourcePath = "/Users/wanlima/Documents/Scala/workspace/Yelp-Review-Analysis/src/main/resources/review_test.json"
     jpf.saveReviews(businessSourcePath, reviewSourcePath)
 
-    // word count for each star level (5 output)
+    //2. word count for each star level (5 output)
     val swc = SimpleWordCount
     for (i <- 1 to 5) yield {
       val file = sc.textFile("src/main/resources/reviewContext/star" + i + ".csv")
       swc.saveWordCount(file, "wordcount" + i)
     }
 
-    /* refine the word count result, clean the identical words which are in top position
+    /* 3. refine the word count result, clean the identical words which are in top position
      * algorithm: 1. extract the identical words in the top 300  of the five wordcount files.
      *            2. remove the identical words from each wordcount files. 
      *            3. do step 1 and 2 for several time.
@@ -77,11 +80,11 @@ object MainClass {
     ci.writeFile_Last(seqRdd3(3), "/time5/word4", identicalSet_3 ++ identical13_3)
     ci.writeFile_Last(seqRdd3(4), "/time5/word5", identicalSet_3 ++ identical04_3)
 
-    //predata for machine learning, get the required input formated data for training data
+    //4. predata for machine learning, get the required input formated data for training data
     val ci1 = new CleanIdentical
     val review = for {
       i <- 1 to 5
-      file = sc.textFile("src/main/resources/reviewContext2/star" + i + ".csv")
+      file = sc.textFile("src/main/resources/reviewContext/star" + i + ".csv")
     } yield file
 
     val seqRdd2 = for {
