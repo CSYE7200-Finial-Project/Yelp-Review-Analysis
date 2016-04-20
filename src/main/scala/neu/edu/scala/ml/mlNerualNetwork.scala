@@ -20,9 +20,9 @@ object mlNerualNetwork extends App {
 
   
  val data = sqlContext.read.format("libsvm")
-  .load("testData/wordFreLine3_xab1.txt")
+  .load("testData/wordFreLine_test.txt")
 // Split the data into train and test
-val splits = data.randomSplit(Array(0.7, 0.4), seed = 1234L)
+val splits = data.randomSplit(Array(0.6, 0.4), seed = 1234L)
 val train = splits(0)
 val test = splits(1)
 // specify layers for the neural network:

@@ -17,7 +17,7 @@ object mlDT extends App{
     val sc = new SparkContext(conf)
    
     // Load and parse the data file.
-val data = MLUtils.loadLibSVMFile(sc, "testData/wordFreLine_test1.txt")
+val data = MLUtils.loadLibSVMFile(sc, "testData/wordFreLine_test.txt")
 // Split the data into training and test sets (30% held out for testing)
 
 
