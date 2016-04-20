@@ -1,10 +1,10 @@
 package neu.edu.scala.predict
 
+import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
 import org.apache.spark.mllib.tree.DecisionTree
 import org.apache.spark.mllib.tree.model.DecisionTreeModel
 import org.apache.spark.mllib.util.MLUtils
-import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
 import org.apache.spark.mllib.linalg.{DenseVector, SparseVector, Vector, Vectors}
 import org.apache.spark.mllib.linalg._
 object reviewPredict extends App{

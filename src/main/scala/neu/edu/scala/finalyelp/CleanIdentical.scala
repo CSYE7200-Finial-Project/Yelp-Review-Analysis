@@ -6,7 +6,7 @@ import scala.collection.mutable
 import scala.collection.mutable
 import java.io._
 import org.apache.spark.rdd._
-    /* 
+/* 
    	 * refine the word count result, clean the identical words which are in top position
      * algorithm: 1. extract the identical words in the top 300  of the five wordcount files.
      *            2. remove the identical words from each wordcount files. 
@@ -24,7 +24,6 @@ class CleanIdentical extends Serializable {
   val reg6 = """^\((\$+?\w+?),(\d+)\)$""".r //($in,8)
   val reg7 = """^\((\d+?\$+?),(\d+)\)$""".r
   val reg8 = """^\((\w+?\$+?),(\d+)\)$""".r //(a$$,12)
-  
 
   def getIdenticalSet(seqSet: Seq[RDD[String]], topNum: Int): Set[String] = {
     val set1 = rdd2Tuple(seqSet(0)).unzip._1
@@ -57,8 +56,8 @@ class CleanIdentical extends Serializable {
         case reg6(word, num) => (word, num.toInt)
         case reg7(word, num) => (word, num.toInt)
         case reg8(word, num) => (word, num.toInt)
-        case _ => ("",0)
-        
+        case _               => ("", 0)
+
       }
     } yield a
     b.toList
@@ -67,7 +66,7 @@ class CleanIdentical extends Serializable {
   def writeFile(inputSet: RDD[String], outputFile: String, setIdentical: Set[String]) = {
 
     val writer = new PrintWriter(new File("src/main/resources/wordsDelCom/" + outputFile + ".txt"))
-    val source = inputSet.collect.take(15000)
+    val source = inputSet.collect
     source.foreach(line => line match {
       case reg(word, num)  => if (!setIdentical.exists(x => x.equals(word))) { writer.write(line + "\n") }
       case reg1(word, num) => if (!setIdentical.exists(x => x.equals(word))) { writer.write(line + "\n") }
@@ -78,10 +77,28 @@ class CleanIdentical extends Serializable {
       case reg6(word, num) => if (!setIdentical.exists(x => x.equals(word))) { writer.write(line + "\n") }
       case reg7(word, num) => if (!setIdentical.exists(x => x.equals(word))) { writer.write(line + "\n") }
       case reg8(word, num) => if (!setIdentical.exists(x => x.equals(word))) { writer.write(line + "\n") }
-      case _ => ("",0)
+      case _               => ("", 0)
     })
     writer.close()
   }
+  def writeFile_Last(inputSet: RDD[String], outputFile: String, setIdentical: Set[String]) = {
 
+    val writer = new PrintWriter(new File("src/main/resources/wordsDelCom/" + outputFile + ".txt"))
+
+    val source = inputSet.collect.take(1000)
+    source.foreach(line => line match {
+      case reg(word, num)  => if (!setIdentical.exists(x => x.equals(word))) { writer.write(line + "\n") }
+      case reg1(word, num) => if (!setIdentical.exists(x => x.equals(word))) { writer.write(line + "\n") }
+      case reg2(word, num) => if (!setIdentical.exists(x => x.equals(word))) { writer.write(line + "\n") }
+      case reg3(word, num) => if (!setIdentical.exists(x => x.equals(word))) { writer.write(line + "\n") }
+      case reg4(word, num) => if (!setIdentical.exists(x => x.equals(word))) { writer.write(line + "\n") }
+      case reg5(word, num) => if (!setIdentical.exists(x => x.equals(word))) { writer.write(line + "\n") }
+      case reg6(word, num) => if (!setIdentical.exists(x => x.equals(word))) { writer.write(line + "\n") }
+      case reg7(word, num) => if (!setIdentical.exists(x => x.equals(word))) { writer.write(line + "\n") }
+      case reg8(word, num) => if (!setIdentical.exists(x => x.equals(word))) { writer.write(line + "\n") }
+      case _               => ("", 0)
+    })
+    writer.close()
+  }
 
 }

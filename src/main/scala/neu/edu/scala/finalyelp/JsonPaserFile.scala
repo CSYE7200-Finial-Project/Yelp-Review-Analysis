@@ -11,13 +11,11 @@ import java.io._
 
 class JsonPaserFile {
 
-  val writer5 = new PrintWriter(new File("src/main/resources/test5.csv"))
-  val writer4 = new PrintWriter(new File("src/main/resources/test4.csv"))
-  val writer3 = new PrintWriter(new File("src/main/resources/test3.csv"))
-  val writer2 = new PrintWriter(new File("src/main/resources/test2.csv"))
-  val writer1 = new PrintWriter(new File("src/main/resources/test1.csv"))
-
-  def newPrinterWriter(fileName: String): PrintWriter = new PrintWriter(new File("src/main/resources/" + fileName + ".csv"))
+  val writer5 = new PrintWriter(new File("src/main/resources/reviewContext/star5.csv"))
+  val writer4 = new PrintWriter(new File("src/main/resources/reviewContext/star4.csv"))
+  val writer3 = new PrintWriter(new File("src/main/resources/reviewContext/star3.csv"))
+  val writer2 = new PrintWriter(new File("src/main/resources/reviewContext/star2.csv"))
+  val writer1 = new PrintWriter(new File("src/main/resources/reviewContext/star1.csv"))
 
   def getKarlsruheId(businessSource: String): Set[String] = {
     val source = scala.io.Source.fromFile(businessSource).getLines
@@ -31,26 +29,13 @@ class JsonPaserFile {
     }
     karlsruhe_id.toSet
   }
-  /*  
-  val karlsruhe_id = mutable.Set.empty[String]
-  for (line <- source_business) {
-    val text = Json.parse(line)
-    val address = (text \ "full_address").get.toString()
 
-    if (address.contains("Karlsruhe")) {
-      println((text \ "business_id").get) // all of Karlsruhe business id
-      karlsruhe_id += (text \ "business_id").get.toString()
-    }
-  }
-*/
   def saveReviews(businessSourcePath: String, reviewSourcePath: String) = {
     val karlsruhe_id = getKarlsruheId(businessSourcePath)
     val source = scala.io.Source.fromFile(reviewSourcePath).getLines
     for (line <- source) {
       val text = Json.parse(line)
       val business_id = (text \ "business_id").get.toString()
-      //      print((text \ "stars").get.toString + " ")
-      //      println((text \ "text").get.toString)
       if (!karlsruhe_id.exists(x => x.equals(business_id))) {
         val stars = (text \ "stars").get.toString() match {
           case "5" => writer5.write(clean((text \ "text").get.toString.toLowerCase()) + "\n")
